@@ -226,12 +226,21 @@ def many_transactions_threaded(contract, howMany):
     submit many transactions multi-threaded.
     """
 
+    useraddr = w3.toChecksumAddress("30f28686aef33adbfbc13797b1d9f5a2f2759f56")
+    cardType = "simple"
+    cardName = "Simple Card"
+    name = "vasa"
+    email = "vasa@towardsblockchain.com"
+    addr = "IIT Delhi"
+    mno = "8130768913"
+    adhaarnumber = "1234567891323"
+    
     print ("send %d transactions, multi-threaded, one thread per tx:\n" % (howMany))
 
     threads = []
     for i in range(howMany):
         t = Thread(target = contract_set,
-                   args   = (contract, 7))
+                   args   = (contract,useraddr,cardType,cardName,name,email,addr,mno,adhaarnumber))
         threads.append(t)
         print (".", end="")
     print ("%d transaction threads created." % len(threads))
@@ -287,6 +296,15 @@ def many_transactions_threaded_in_batches(contract, howMany, batchSize=25):
     Does not give an advantage --> OBSOLETE, probably. 
     """
 
+    useraddr = w3.toChecksumAddress("30f28686aef33adbfbc13797b1d9f5a2f2759f56")
+    cardType = "simple"
+    cardName = "Simple Card"
+    name = "vasa"
+    email = "vasa@towardsblockchain.com"
+    addr = "IIT Delhi"
+    mno = "8130768913"
+    adhaarnumber = "1234567891323"
+    
     print ("send %d transactions, multi-threaded, one thread per tx, in batches of %d parallel threads:\n" % (howMany, batchSize))
     howManyLeft=howMany
     while howManyLeft>0:
@@ -295,7 +313,7 @@ def many_transactions_threaded_in_batches(contract, howMany, batchSize=25):
         threads = []
         for i in range(batchSize):
             t = Thread(target = contract_set,
-                       args   = (contract, 7))
+                       args   = (contract, useraddr,cardType,cardName,name,email,addr,mno,adhaarnumber))
             threads.append(t)
             print (".", end="")
         print ("%d transaction threads created." % len(threads))
