@@ -60,7 +60,7 @@ def initialize(contractTx_blockNumber=1, contractTx_transactionIndex=0):
     return contract
 
 
-def contract_set_via_web3(contract, arg, privateFor=PRIVATE_FOR, gas=90000):
+def contract_set_via_web3(contract, useraddr,cardType,cardName,name,email,addr,mno,adhaarnumber, privateFor=PRIVATE_FOR, gas=90000):
     """
     call the .set(arg) method, possibly with 'privateFor' tx-property
     using the web3 method 
@@ -71,8 +71,9 @@ def contract_set_via_web3(contract, arg, privateFor=PRIVATE_FOR, gas=90000):
         txParameters['privateFor'] = privateFor  # untested
         
     # pprint (txParameters)
-        
-    tx = contract.functions.set( x=arg ).transact(txParameters)
+    #address useraddr,string cardType, string cardName, string name, string email, string addr, string mno, string adhaarnumber
+
+    tx = contract.functions.AddCard(useraddr,cardType,cardName,name,email,addr,mno,adhaarnumber).transact(txParameters)
     print ("[sent via web3]", end=" ")
     tx = w3.toHex(tx)
     return tx
@@ -206,7 +207,17 @@ def many_transactions(contract, howMany):
     print ("send %d transactions, non-async, one after the other:\n" % (howMany))
 
     for i in range(howMany):
-        tx = contract_set(contract, i)
+
+        useraddr = w3.toChecksumAddress("30f28686aef33adbfbc13797b1d9f5a2f2759f56")
+        cardType = "simple"
+        cardName = "Simple Card"
+        name = "vasa"
+        email = "vasa@towardsblockchain.com"
+        addr = "IIT Delhi"
+        mno = "8130768913"
+        adhaarnumber = "1234567891323"
+
+        tx = contract_set(contract,useraddr,cardType,cardName,name,email,addr,mno,adhaarnumber)
         print ("set() transaction submitted: ", tx) # Web3.toHex(tx)) # new web3
 
 
@@ -355,4 +366,5 @@ if __name__ == '__main__':
     # test_contract_set_via_RPC(contract);  exit()
 
     benchmark()
+
 
